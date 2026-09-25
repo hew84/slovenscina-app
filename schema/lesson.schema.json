@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SloBuddy lesson",
+  "description": "Editor help for lesson files in public/lessons/. The app validates the same rules at load time (src/app/lesson-validation.ts).",
+  "type": "object",
+  "required": ["id", "title", "level", "vocabulary", "exercises"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "id": { "type": "string", "pattern": "^[a-z0-9-]+$", "description": "Also the file name: lesson-01 → lesson-01.json" },
+    "title": { "type": "string", "minLength": 1 },
+    "level": { "type": "string", "minLength": 1, "examples": ["A1", "A2"] },
+    "description": { "type": "string" },
+    "vocabulary": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "sl", "de"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "sl": { "type": "string", "minLength": 1, "description": "Slovenian" },
+          "de": { "type": "string", "minLength": 1, "description": "German" },
+          "note": { "type": "string" }
+        }
+      }
+    },
+    "exercises": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": ["id", "type", "vocabId"],
+            "additionalProperties": false,
+            "properties": {
+              "id": { "type": "string", "minLength": 1 },
+              "type": { "const": "flashcard" },
+              "vocabId": { "type": "string", "description": "id of an entry in vocabulary" }
+            }
+          },
+          {
+            "type": "object",
+            "required": ["id", "type", "text", "answers"],
+            "additionalProperties": false,
+            "properties": {
+              "id": { "type": "string", "minLength": 1 },
+              "type": { "const": "cloze" },
+              "text": { "type": "string", "description": "Sentence with numbered blanks: \"Jaz {{0}} iz {{1}}.\"" },
+              "answers": {
+                "type": "array",
+                "description": "One list of accepted spellings per blank, in the order of the placeholders.",
+                "items": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } }
+              },
+              "translation": { "type": "string", "description": "German meaning of the whole sentence, shown as a help." }
+            }
+          },
+          {
+            "type": "object",
+            "required": ["id", "type", "prompt", "answers"],
+            "additionalProperties": false,
+            "properties": {
+              "id": { "type": "string", "minLength": 1 },
+              "type": { "const": "translate" },
+              "prompt": { "type": "string", "description": "German text to translate." },
+              "answers": {
+                "type": "array",
+                "minItems": 1,
+                "description": "Accepted Slovenian spellings. The first one is shown as the solution.",
+                "items": { "type": "string", "minLength": 1 }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

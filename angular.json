@@ -30,6 +30,10 @@
               }
             ],
             "styles": [
+              "@fontsource/roboto/latin-400.css",
+              "@fontsource/roboto/latin-ext-400.css",
+              "@fontsource/roboto/latin-500.css",
+              "@fontsource/roboto/latin-ext-500.css",
               "src/styles.scss"
             ]
           },
@@ -47,7 +51,8 @@
                   "maximumError": "8kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "serviceWorker": "ngsw-config.json"
             },
             "development": {
               "optimization": false,

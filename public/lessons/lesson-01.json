@@ -1,0 +1,41 @@
+{
+  "$schema": "../../schema/lesson.schema.json",
+  "id": "lesson-01",
+  "title": "Begrüßung & Vorstellung",
+  "level": "A1",
+  "description": "Grüßen, sich bedanken und sich vorstellen.",
+  "vocabulary": [
+    { "id": "v-dober-dan", "sl": "Dober dan", "de": "Guten Tag" },
+    { "id": "v-dobro-jutro", "sl": "Dobro jutro", "de": "Guten Morgen" },
+    { "id": "v-dober-vecer", "sl": "Dober večer", "de": "Guten Abend" },
+    { "id": "v-lahko-noc", "sl": "Lahko noč", "de": "Gute Nacht" },
+    { "id": "v-zivjo", "sl": "Živjo", "de": "Hallo", "note": "Informell, unter Freunden." },
+    { "id": "v-nasvidenje", "sl": "Nasvidenje", "de": "Auf Wiedersehen" },
+    { "id": "v-prosim", "sl": "Prosim", "de": "Bitte", "note": "Beim Bitten und als Antwort auf „Hvala“." },
+    { "id": "v-hvala", "sl": "Hvala", "de": "Danke" }
+  ],
+  "exercises": [
+    { "id": "f1", "type": "flashcard", "vocabId": "v-dober-dan" },
+    { "id": "f2", "type": "flashcard", "vocabId": "v-dobro-jutro" },
+    { "id": "f3", "type": "flashcard", "vocabId": "v-dober-vecer" },
+    { "id": "f4", "type": "flashcard", "vocabId": "v-lahko-noc" },
+    { "id": "f5", "type": "flashcard", "vocabId": "v-zivjo" },
+    { "id": "f6", "type": "flashcard", "vocabId": "v-nasvidenje" },
+    { "id": "f7", "type": "flashcard", "vocabId": "v-prosim" },
+    { "id": "f8", "type": "flashcard", "vocabId": "v-hvala" },
+
+    { "id": "c1", "type": "cloze", "text": "Dober {{0}}!", "answers": [["večer"]], "translation": "Guten Abend!" },
+    { "id": "c2", "type": "cloze", "text": "{{0}} noč!", "answers": [["Lahko"]], "translation": "Gute Nacht!" },
+    { "id": "c3", "type": "cloze", "text": "Ime mi {{0}} Ana.", "answers": [["je"]], "translation": "Ich heiße Ana." },
+    { "id": "c4", "type": "cloze", "text": "Kako si? – Dobro {{0}}.", "answers": [["sem"]], "translation": "Wie geht’s dir? – Mir geht es gut." },
+    { "id": "c5", "type": "cloze", "text": "Jaz {{0}} iz {{1}}.", "answers": [["sem"], ["Nemčije"]], "translation": "Ich bin aus Deutschland." },
+
+    { "id": "t1", "type": "translate", "prompt": "Guten Tag", "answers": ["Dober dan"] },
+    { "id": "t2", "type": "translate", "prompt": "Danke", "answers": ["Hvala"] },
+    { "id": "t3", "type": "translate", "prompt": "Auf Wiedersehen", "answers": ["Nasvidenje"] },
+    { "id": "t4", "type": "translate", "prompt": "Bitte", "answers": ["Prosim"] },
+    { "id": "t5", "type": "translate", "prompt": "Gute Nacht", "answers": ["Lahko noč"] },
+    { "id": "t6", "type": "translate", "prompt": "Wie geht’s dir?", "answers": ["Kako si?"] },
+    { "id": "t7", "type": "translate", "prompt": "Ich heiße Ana.", "answers": ["Ime mi je Ana."] }
+  ]
+}
