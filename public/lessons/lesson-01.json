@@ -36,6 +36,6 @@
     { "id": "t4", "type": "translate", "prompt": "Bitte", "answers": ["Prosim"] },
     { "id": "t5", "type": "translate", "prompt": "Gute Nacht", "answers": ["Lahko noč"] },
     { "id": "t6", "type": "translate", "prompt": "Wie geht’s dir?", "answers": ["Kako si?"] },
-    { "id": "t7", "type": "translate", "prompt": "Ich heiße Ana.", "answers": ["Ime mi je Ana."] }
+    { "id": "t7", "type": "translate", "prompt": "Sehr gut", "answers": ["zelo dobro"] }
   ]
 }
