@@ -60,6 +60,41 @@ describe('parseLesson', () => {
     expect(problemsOf(lesson).join('\n')).toContain('unbekannter');
   });
 
+  describe('choice exercises', () => {
+    const choice = (overrides: Record<string, unknown>) => {
+      const lesson = valid();
+      lesson.exercises[2] = {
+        id: 'e3',
+        type: 'choice',
+        text: 'Kako {{0}}?',
+        answer: 'si',
+        distractor: 'sem',
+        translation: 'Wie geht’s dir?',
+        ...overrides,
+      } as never;
+      return lesson;
+    };
+
+    it('accepts a valid choice exercise', () => {
+      expect(parseLesson(choice({})).exercises[2]).toMatchObject({ type: 'choice', answer: 'si', distractor: 'sem' });
+    });
+
+    it('requires a translation and a distractor', () => {
+      expect(problemsOf(choice({ translation: undefined })).join('\n')).toContain('Pflicht');
+      expect(problemsOf(choice({ distractor: '' })).join('\n')).toContain('Pflicht');
+    });
+
+    it('requires exactly one blank {{0}}', () => {
+      expect(problemsOf(choice({ text: 'Kako si?' })).join('\n')).toContain('genau eine Lücke');
+      expect(problemsOf(choice({ text: '{{0}} {{1}}?' })).join('\n')).toContain('genau eine Lücke');
+      expect(problemsOf(choice({ text: 'Kako {{1}}?' })).join('\n')).toContain('genau eine Lücke');
+    });
+
+    it('rejects a distractor equal to the answer', () => {
+      expect(problemsOf(choice({ distractor: ' si ' })).join('\n')).toContain('nicht gleich');
+    });
+  });
+
   it('collects several problems at once', () => {
     expect(problemsOf({ id: '', vocabulary: 'x', exercises: [] }).length).toBeGreaterThan(3);
   });

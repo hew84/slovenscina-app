@@ -70,6 +70,23 @@
                 "items": { "type": "string", "minLength": 1 }
               }
             }
+          },
+          {
+            "type": "object",
+            "required": ["id", "type", "text", "answer", "distractor", "translation"],
+            "additionalProperties": false,
+            "properties": {
+              "id": { "type": "string", "minLength": 1 },
+              "type": { "const": "choice" },
+              "text": {
+                "type": "string",
+                "pattern": "\\{\\{0\\}\\}",
+                "description": "Slovenian sentence with exactly one blank {{0}}. Read aloud with the answer filled in."
+              },
+              "answer": { "type": "string", "minLength": 1, "description": "The correct word." },
+              "distractor": { "type": "string", "minLength": 1, "description": "The wrong word offered next to it." },
+              "translation": { "type": "string", "minLength": 1, "description": "German meaning of the whole sentence." }
+            }
           }
         ]
       }

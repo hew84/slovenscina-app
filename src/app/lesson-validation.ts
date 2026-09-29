@@ -137,8 +137,26 @@ function validateExercises(raw: unknown, vocabIds: Set<string>, problems: string
         });
         return;
       }
+      case 'choice': {
+        const { text, answer, distractor, translation } = entry;
+        if (!isText(text) || !isText(answer) || !isText(distractor) || !isText(translation)) {
+          problems.push(`${label}: "text", "answer", "distractor" und "translation" sind Pflicht.`);
+          return;
+        }
+        const blanks = parseCloze(text).filter((segment) => segment.kind === 'blank');
+        if (blanks.length !== 1 || blanks[0].index !== 0) {
+          problems.push(`${label}: "text" muss genau eine Lücke {{0}} enthalten.`);
+          return;
+        }
+        if (answer.trim() === distractor.trim()) {
+          problems.push(`${label}: "answer" und "distractor" dürfen nicht gleich sein.`);
+          return;
+        }
+        exercises.push({ id, type: 'choice', text, answer, distractor, translation });
+        return;
+      }
       default:
-        problems.push(`${label}: unbekannter "type" (erlaubt: flashcard, cloze, translate).`);
+        problems.push(`${label}: unbekannter "type" (erlaubt: flashcard, cloze, translate, choice).`);
     }
   });
   return exercises;

@@ -3,6 +3,8 @@ import { MatButton } from '@angular/material/button';
 import { MatCard, MatCardActions, MatCardContent } from '@angular/material/card';
 import { MatProgressBar } from '@angular/material/progress-bar';
 import { RouterLink } from '@angular/router';
+import { fillBlanks } from '../cloze';
+import { Choice } from '../exercises/choice';
 import { Cloze } from '../exercises/cloze';
 import { Flashcard } from '../exercises/flashcard';
 import { Translate } from '../exercises/translate';
@@ -21,7 +23,7 @@ type Phase = 'loading' | 'error' | 'running' | 'done';
 
 @Component({
   selector: 'app-lesson-page',
-  imports: [MatButton, MatCard, MatCardContent, MatCardActions, MatProgressBar, RouterLink, Icon, Flashcard, Cloze, Translate],
+  imports: [MatButton, MatCard, MatCardContent, MatCardActions, MatProgressBar, RouterLink, Icon, Flashcard, Cloze, Translate, Choice],
   template: `
     <a matButton routerLink="/" class="back"><app-icon name="back" /> Übersicht</a>
 
@@ -49,6 +51,9 @@ type Phase = 'loading' | 'error' | 'running' | 'done';
             }
             @case ('translate') {
               <app-translate [exercise]="exercise" (completed)="next(exercise, $event)" />
+            }
+            @case ('choice') {
+              <app-choice [exercise]="exercise" (completed)="next(exercise, $event)" />
             }
           }
         }
@@ -240,6 +245,8 @@ export class LessonPage {
         return exercise.prompt;
       case 'cloze':
         return exercise.translation ?? exercise.text.replace(/\{\{\d+\}\}/g, '…');
+      case 'choice':
+        return exercise.translation;
     }
   }
 
@@ -250,7 +257,12 @@ export class LessonPage {
       case 'translate':
         return exercise.answers[0];
       case 'cloze':
-        return exercise.text.replace(/\{\{(\d+)\}\}/g, (_, index) => exercise.answers[Number(index)][0]);
+        return fillBlanks(
+          exercise.text,
+          exercise.answers.map((accepted) => accepted[0]),
+        );
+      case 'choice':
+        return fillBlanks(exercise.text, [exercise.answer]);
     }
   }
 }

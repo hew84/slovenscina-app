@@ -30,7 +30,20 @@ export interface TranslateExercise {
   answers: string[];
 }
 
-export type Exercise = FlashcardExercise | ClozeExercise | TranslateExercise;
+export interface ChoiceExercise {
+  id: string;
+  type: 'choice';
+  /** Slovenian sentence with exactly one blank: "Jaz {{0}} iz Nemčije." */
+  text: string;
+  /** The correct word for the blank. */
+  answer: string;
+  /** The wrong word offered next to it. */
+  distractor: string;
+  /** German meaning of the whole sentence. */
+  translation: string;
+}
+
+export type Exercise = FlashcardExercise | ClozeExercise | TranslateExercise | ChoiceExercise;
 
 export interface Lesson {
   id: string;

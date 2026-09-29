@@ -2,6 +2,11 @@ export type ClozeSegment = { kind: 'text'; text: string } | { kind: 'blank'; ind
 
 const BLANK = /\{\{(\d+)\}\}/g;
 
+/** Fills each blank {{n}} with values[n]: fillBlanks("Jaz {{0}}.", ["sem"]) → "Jaz sem." */
+export function fillBlanks(text: string, values: readonly string[]): string {
+  return text.replace(BLANK, (_, index) => values[Number(index)] ?? '');
+}
+
 /** Splits "Jaz {{0}} iz {{1}}." into text and blank segments. */
 export function parseCloze(text: string): ClozeSegment[] {
   const segments: ClozeSegment[] = [];

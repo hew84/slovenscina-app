@@ -1,4 +1,14 @@
-import { parseCloze } from './cloze';
+import { fillBlanks, parseCloze } from './cloze';
+
+describe('fillBlanks', () => {
+  it('fills blanks by their number', () => {
+    expect(fillBlanks('Jaz {{0}} iz {{1}}.', ['sem', 'Nemčije'])).toBe('Jaz sem iz Nemčije.');
+  });
+
+  it('leaves text without blanks unchanged', () => {
+    expect(fillBlanks('Hvala', [])).toBe('Hvala');
+  });
+});
 
 describe('parseCloze', () => {
   it('splits text and blanks in order', () => {

@@ -19,8 +19,9 @@ import { SpecialChars, insertAtCaret } from '../ui/special-chars';
         }
         <p class="sentence" lang="sl">
           @for (segment of segments(); track $index) {
+            <!-- Text sits directly inside a <span>: loose template whitespace would show up under pre-wrap. -->
             @if (segment.kind === 'text') {
-              {{ segment.text }}
+              <span>{{ segment.text }}</span>
             } @else {
               <input
                 #blank

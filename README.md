@@ -1,7 +1,7 @@
 # SloBuddy
 
 Slowenisch lernen (Deutsch → Slowenisch, Niveau A1) als installierbare Angular-PWA.
-Übungstypen: Vokabelkarten, Lückentexte, Übersetzung eintippen. Der Fortschritt wird lokal im Gerät gespeichert, es gibt kein Backend.
+Übungstypen: Vokabelkarten, Lückentexte, Übersetzung eintippen, Hören und wählen. Der Fortschritt wird lokal im Gerät gespeichert, es gibt kein Backend.
 
 ## Entwickeln
 
@@ -51,10 +51,17 @@ Neue Lektion: Datei anlegen und in `index.json` eintragen. Die `id` muss dem Dat
       "answers": [["sem"], ["Nemčije"]], "translation": "Ich bin aus Deutschland." },
 
     // Übersetzung: de → sl. Die erste Antwort wird als Lösung angezeigt.
-    { "id": "t1", "type": "translate", "prompt": "Danke", "answers": ["Hvala"] }
+    { "id": "t1", "type": "translate", "prompt": "Danke", "answers": ["Hvala"] },
+
+    // Hören und wählen: genau eine Lücke {{0}}, zwei Wörter zur Auswahl.
+    // Der ganze Satz mit "answer" wird beim Öffnen vorgelesen.
+    { "id": "a1", "type": "choice", "text": "Kako {{0}}?", "answer": "si",
+      "distractor": "sem", "translation": "Wie geht’s dir?" }
   ]
 }
 ```
+
+**Hören und wählen (`choice`):** Die Reihenfolge der beiden Wörter wird bei jedem Durchlauf zufällig gemischt. Der Satz wird automatisch vorgelesen, sobald eine slowenische Stimme verfügbar ist. Manche Browser (vor allem iOS Safari) blockieren Audio, das nicht direkt durch einen Tipp ausgelöst wurde. Dann bleibt es still, und der Button „Anhören“ spielt den Satz ab. Ohne slowenische Stimme ist die Aufgabe eine reine Leseübung.
 
 Die Übungen laufen in der Reihenfolge von `exercises`. Jede `id` muss innerhalb der Lektion eindeutig sein.
 
@@ -85,6 +92,6 @@ public/lessons/      Lerninhalte (JSON)
 schema/              JSON-Schema für den Editor
 src/app/answer.ts    exakte Antwortprüfung
 src/app/lesson-*.ts  Laden und Validieren der Lektionen
-src/app/exercises/   Flashcard, Cloze, Translate
+src/app/exercises/   Flashcard, Cloze, Translate, Choice
 src/app/pages/       Übersicht und Lektionsablauf
 ```
