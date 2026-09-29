@@ -99,7 +99,7 @@ import { SpecialChars, insertAtCaret } from '../ui/special-chars';
       border-bottom-color: var(--mat-sys-primary);
     }
     .blank.ok {
-      border-bottom-color: var(--mat-sys-tertiary);
+      border-bottom-color: var(--app-success);
     }
     .blank.wrong {
       border-bottom-color: var(--mat-sys-error);

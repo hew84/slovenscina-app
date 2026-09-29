@@ -13,6 +13,11 @@ html {
       density: 0,
     )
   );
+
+  // Marks correct answers (feedback, blanks, choice buttons). Muted to sit next to Material's error colors.
+  --app-success: light-dark(#2e7d32, #81c784);
+  --app-success-container: light-dark(#dcefdc, #1f3d22);
+  --app-on-success-container: light-dark(#14361a, #cde8cf);
 }
 
 body {

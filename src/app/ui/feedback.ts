@@ -27,8 +27,8 @@ import { Icon } from './icon';
       border-radius: var(--mat-sys-corner-medium);
     }
     .ok {
-      background: var(--mat-sys-tertiary-container);
-      color: var(--mat-sys-on-tertiary-container);
+      background: var(--app-success-container);
+      color: var(--app-on-success-container);
     }
     .wrong {
       background: var(--mat-sys-error-container);

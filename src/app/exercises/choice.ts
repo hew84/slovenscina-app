@@ -96,7 +96,7 @@ import { Icon } from '../ui/icon';
       min-width: 0;
       padding: 0;
       color: var(--mat-sys-primary);
-      border-bottom-color: var(--mat-sys-tertiary);
+      border-bottom-color: var(--app-success);
     }
     .listen {
       align-self: flex-start;
@@ -111,9 +111,9 @@ import { Icon } from '../ui/icon';
       font: var(--mat-sys-title-medium);
     }
     .option.ok {
-      background: var(--mat-sys-tertiary-container);
-      color: var(--mat-sys-on-tertiary-container);
-      border-color: var(--mat-sys-tertiary);
+      background: var(--app-success-container);
+      color: var(--app-on-success-container);
+      border-color: var(--app-success);
     }
     .option.wrong {
       background: var(--mat-sys-error-container);
