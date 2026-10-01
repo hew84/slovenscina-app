@@ -76,8 +76,10 @@ import { Icon } from '../ui/icon';
       font: var(--mat-sys-label-large);
     }
     .translation {
-      color: var(--mat-sys-on-surface-variant);
+      // Same size as the Slovenian sentence; font-style after the shorthand, which would reset it.
+      font: var(--mat-sys-headline-small);
       font-style: italic;
+      color: var(--mat-sys-on-surface-variant);
     }
     .sentence {
       font: var(--mat-sys-headline-small);
