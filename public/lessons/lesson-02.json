@@ -28,6 +28,22 @@
         { "speaker": "Marko", "sl": "Kdaj delaš?", "de": "Wann arbeitest du?" },
 		{ "speaker": "Ana", "sl": "Včasih {{0}} tudi ponoči.", "answer": "delam", "distractor": "kuham", "de": "Manchmal arbeite ich auch nachts." }
       ]
+    },
+	{
+      "id": "d2",
+      "type": "dialog",
+      "title": "Wo arbeitest du?",
+      "speakers": ["Ana", "Marko"],
+      "lines": [
+        { "speaker": "Ana", "sl": "Kaj si po poklicu?", "de": "Was bist du von Beruf?" },
+        { "speaker": "Marko", "sl": "Jaz sem {{0}}.", "answer": "ekonomist", "distractor": "hiša", "de": "Ich bin Wirtschaftswissenschaftler." },
+        { "speaker": "Ana", "sl": "Kje pa delaš?", "de": "Wo arbeitest du?" },
+        { "speaker": "Marko", "sl": "V majhni {{0}}.", "answer": "firmi", "distractor": "gori", "de": "In einer kleinen Firma." },
+        { "speaker": "Ana", "sl": "Ti je delo všeč?", "de": "Gefällt dir die Arbeit?" },
+        { "speaker": "Marko", "sl": "Ja, {{0}}.", "answer": "zelo", "distractor": "sploh ne", "de": "Ja, sehr." },
+        { "speaker": "Ana", "sl": "Zakaj?", "de": "Warum?" },
+		{ "speaker": "Marko", "sl": "{{0}} je dobra.", "answer": "Plača", "distractor": "Spalnica", "de": "Die Bezahlung ist gut." }
+      ]
     }
 	
   ]
