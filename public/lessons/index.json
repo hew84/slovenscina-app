@@ -4,5 +4,17 @@
     "title": "Begrüßung & Vorstellung",
     "level": "A1",
     "description": "Grüßen, sich bedanken und sich vorstellen."
+  },
+  {
+    "id": "lesson-02",
+    "title": "Übungen Arbeit & Beruf",
+    "level": "A1",
+    "description": "Unterhaltungen im Arbeitsalltag"
+  },
+  {
+    "id": "lesson-03",
+    "title": "Vokabeln Arbeit & Beruf",
+    "level": "A1",
+    "description": "Vokabeln zu Berufen, Arbeitsplatz, Zeitangaben und Fragen zum Beruf."
   }
 ]

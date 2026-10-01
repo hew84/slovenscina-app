@@ -1,6 +1,21 @@
-<mat-toolbar>
-  <a routerLink="/" class="brand">SloBuddy</a>
-</mat-toolbar>
+<header>
+  <mat-toolbar>
+    <a routerLink="/" class="brand">SloBuddy</a>
+  </mat-toolbar>
+  @if (updateReady()) {
+    <div class="update" role="alert">
+      <app-icon name="refresh" />
+      <div class="update-text">
+        <strong>Neue Version verfügbar</strong>
+        <span>Lade neu, um neue Lektionen und Verbesserungen zu bekommen.</span>
+      </div>
+      <div class="update-actions">
+        <button matButton type="button" (click)="updateReady.set(false)">Später</button>
+        <button matButton="filled" type="button" (click)="reload()">Jetzt neu laden</button>
+      </div>
+    </div>
+  }
+</header>
 <main>
   <router-outlet />
 </main>

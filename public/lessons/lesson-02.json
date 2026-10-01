@@ -1,0 +1,34 @@
+{
+  "$schema": "../../schema/lesson.schema.json",
+  "id": "lesson-02",
+  "title": "Übungen Arbeit & Beruf",
+  "level": "A1",
+  "description": "Unterhaltungen im Arbeitsalltag",
+  "vocabulary": [
+ 
+  ],
+  "exercises": [
+	{ "id": "a1", "type": "choice", "text": "Kaj si po {{0}}?", "answer": "poklicu", "distractor": "pokemon", "translation": "Was bist du von Beruf?" },
+    { "id": "a2", "type": "choice", "text": "Kje {{0}}?", "answer": "delaš", "distractor": "kuhaš", "translation": "Wo arbeitest du?" },
+	{ "id": "a3", "type": "choice", "text": "Kaj {{0}}?", "answer": "delaš", "distractor": "razumeš", "translation": "Was arbeitest du?" },
+	{ "id": "a4", "type": "choice", "text": "Kdaj {{0}}?", "answer": "delaš", "distractor": "si", "translation": "Wann arbeitest du?" },
+	
+	{
+      "id": "d1",
+      "type": "dialog",
+      "title": "Was arbeitest du?",
+      "speakers": ["Marko", "Ana"],
+      "lines": [
+        { "speaker": "Marko", "sl": "Kaj si po poklicu?", "de": "Was bist du von Beruf?" },
+        { "speaker": "Ana", "sl": "Jaz sem {{0}}.", "answer": "zdravnica", "distractor": "auto", "de": "Ich bin Ärztin." },
+        { "speaker": "Marko", "sl": "Kje delaš?", "de": "Wo arbeitest du?" },
+        { "speaker": "Ana", "sl": "Delam v zdravstvenem {{0}}.", "answer": "domu", "distractor": "ulica", "de": "Ich arbeite in einem Gesundheitszentrum." },
+        { "speaker": "Marko", "sl": "Kaj delaš?", "de": "Was machst du?" },
+        { "speaker": "Ana", "sl": "{{0}} paciente in pišem recepte.", "answer": "Zdravim", "distractor": "Kupim", "de": "Ich behandle Patienten und stelle Rezepte aus." },
+        { "speaker": "Marko", "sl": "Kdaj delaš?", "de": "Wann arbeitest du?" },
+		{ "speaker": "Ana", "sl": "Včasih {{0}} tudi ponoči.", "answer": "delam", "distractor": "kuham", "de": "Manchmal arbeite ich auch nachts." }
+      ]
+    }
+	
+  ]
+}

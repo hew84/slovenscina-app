@@ -31,6 +31,8 @@ Lektionen liegen in `public/lessons/`:
 Neue Lektion: Datei anlegen und in `index.json` eintragen. Die `id` muss dem Dateinamen entsprechen (nur `a-z`, `0-9`, `-`).
 `schema/lesson.schema.json` liefert in VS Code Autovervollständigung und Fehlermeldungen. Zusätzlich prüft die App jede Lektion beim Laden und zeigt Fehler im Klartext an.
 
+`npm test` prüft alle Dateien in `public/lessons/`: jede Lektion muss gültig sein, in `index.json` stehen und dort denselben Titel, dasselbe Niveau und dieselbe Beschreibung haben. Weil die Tests vor jedem Deployment laufen, geht eine fehlerhafte Lektion nicht online.
+
 ```jsonc
 {
   "$schema": "../../schema/lesson.schema.json",
