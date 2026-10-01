@@ -87,6 +87,40 @@
               "distractor": { "type": "string", "minLength": 1, "description": "The wrong word offered next to it." },
               "translation": { "type": "string", "minLength": 1, "description": "German meaning of the whole sentence." }
             }
+          },
+          {
+            "type": "object",
+            "required": ["id", "type", "speakers", "lines"],
+            "additionalProperties": false,
+            "properties": {
+              "id": { "type": "string", "minLength": 1 },
+              "type": { "const": "dialog" },
+              "title": { "type": "string", "minLength": 1, "description": "Optional, shown above the dialog." },
+              "speakers": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": { "type": "string", "minLength": 1 },
+                "description": "Exactly two names. The first speaks on the left, the second on the right with a slightly higher voice."
+              },
+              "lines": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "required": ["speaker", "sl"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "speaker": { "type": "string", "minLength": 1, "description": "One of the names in speakers." },
+                    "sl": { "type": "string", "minLength": 1, "description": "Slovenian sentence, optionally with one blank {{0}}." },
+                    "de": { "type": "string", "minLength": 1, "description": "German translation, shown when the sentence is tapped." },
+                    "answer": { "type": "string", "minLength": 1, "description": "Only with a blank: the correct word." },
+                    "distractor": { "type": "string", "minLength": 1, "description": "Only with a blank: the wrong word offered next to it." }
+                  },
+                  "dependencies": { "answer": ["distractor"], "distractor": ["answer"] }
+                }
+              }
+            }
           }
         ]
       }

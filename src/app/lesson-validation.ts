@@ -1,5 +1,5 @@
 import { parseCloze } from './cloze';
-import { Exercise, Lesson, VocabItem } from './models';
+import { DialogExercise, DialogLine, Exercise, Lesson, VocabItem } from './models';
 
 /** Thrown for hand-written lesson JSON that does not match the expected format. */
 export class LessonFormatError extends Error {
@@ -155,9 +155,86 @@ function validateExercises(raw: unknown, vocabIds: Set<string>, problems: string
         exercises.push({ id, type: 'choice', text, answer, distractor, translation });
         return;
       }
+      case 'dialog': {
+        const dialog = validateDialog(id, entry, label, problems);
+        if (dialog) {
+          exercises.push(dialog);
+        }
+        return;
+      }
       default:
-        problems.push(`${label}: unbekannter "type" (erlaubt: flashcard, cloze, translate, choice).`);
+        problems.push(`${label}: unbekannter "type" (erlaubt: flashcard, cloze, translate, choice, dialog).`);
     }
   });
   return exercises;
+}
+
+function validateDialog(id: string, entry: Json, label: string, problems: string[]): DialogExercise | null {
+  const { speakers, lines, title } = entry;
+  const before = problems.length;
+
+  if (
+    !Array.isArray(speakers) ||
+    speakers.length !== 2 ||
+    !speakers.every(isText) ||
+    speakers[0].trim() === speakers[1].trim()
+  ) {
+    problems.push(`${label}: "speakers" muss genau zwei verschiedene Namen enthalten.`);
+    return null;
+  }
+  if (!Array.isArray(lines) || lines.length === 0) {
+    problems.push(`${label}: "lines" muss eine nicht-leere Liste sein.`);
+    return null;
+  }
+  if (title !== undefined && !isText(title)) {
+    problems.push(`${label}: "title" darf nicht leer sein.`);
+  }
+
+  const parsed: DialogLine[] = [];
+  lines.forEach((line, position) => {
+    const lineLabel = `${label} lines[${position}]`;
+    if (!isObject(line) || !isText(line['speaker']) || !isText(line['sl'])) {
+      problems.push(`${lineLabel}: "speaker" und "sl" sind Pflicht.`);
+      return;
+    }
+    const { speaker, sl, de, answer, distractor } = line;
+    if (!speakers.includes(speaker)) {
+      problems.push(`${lineLabel}: Sprecher "${speaker}" steht nicht in "speakers".`);
+    }
+    if (de !== undefined && !isText(de)) {
+      problems.push(`${lineLabel}: "de" darf nicht leer sein.`);
+    }
+    const blanks = parseCloze(sl).filter((segment) => segment.kind === 'blank');
+    if (blanks.length === 0) {
+      if (answer !== undefined || distractor !== undefined) {
+        problems.push(`${lineLabel}: "answer" und "distractor" gibt es nur bei einem Satz mit Lücke {{0}}.`);
+      }
+      parsed.push({ speaker, sl, de: isText(de) ? de : undefined });
+      return;
+    }
+    if (blanks.length !== 1 || blanks[0].index !== 0) {
+      problems.push(`${lineLabel}: Ein Satz darf höchstens eine Lücke {{0}} enthalten.`);
+      return;
+    }
+    if (!isText(answer) || !isText(distractor)) {
+      problems.push(`${lineLabel}: Ein Satz mit Lücke braucht "answer" und "distractor".`);
+      return;
+    }
+    if (answer.trim() === distractor.trim()) {
+      problems.push(`${lineLabel}: "answer" und "distractor" dürfen nicht gleich sein.`);
+      return;
+    }
+    parsed.push({ speaker, sl, de: isText(de) ? de : undefined, answer, distractor });
+  });
+
+  if (problems.length > before) {
+    return null;
+  }
+  return {
+    id,
+    type: 'dialog',
+    title: isText(title) ? title : undefined,
+    speakers: [speakers[0], speakers[1]],
+    lines: parsed,
+  };
 }

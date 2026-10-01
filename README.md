@@ -1,7 +1,7 @@
 # SloBuddy
 
 Slowenisch lernen (Deutsch → Slowenisch, Niveau A1) als installierbare Angular-PWA.
-Übungstypen: Vokabelkarten, Lückentexte, Übersetzung eintippen, Hören und wählen. Der Fortschritt wird lokal im Gerät gespeichert, es gibt kein Backend.
+Übungstypen: Vokabelkarten, Lückentexte, Übersetzung eintippen, Hören und wählen, Dialoge. Der Fortschritt wird lokal im Gerät gespeichert, es gibt kein Backend.
 
 ## Entwickeln
 
@@ -63,6 +63,25 @@ Neue Lektion: Datei anlegen und in `index.json` eintragen. Die `id` muss dem Dat
 
 **Hören und wählen (`choice`):** Die Reihenfolge der beiden Wörter wird bei jedem Durchlauf zufällig gemischt. Der Satz wird automatisch vorgelesen, sobald eine slowenische Stimme verfügbar ist. Manche Browser (vor allem iOS Safari) blockieren Audio, das nicht direkt durch einen Tipp ausgelöst wurde. Dann bleibt es still, und der Button „Anhören“ spielt den Satz ab. Ohne slowenische Stimme ist die Aufgabe eine reine Leseübung.
 
+**Dialoge (`dialog`):** Ein Dialog zwischen genau zwei Sprechern, beliebig lang. Sätze ohne Lücke werden nacheinander gezeigt und vorgelesen. Bei einem Satz mit Lücke `{{0}}` hält der Dialog an, bis eines der zwei Wörter gewählt wurde. Dann wird der vollständige Satz vorgelesen und es geht weiter. Ein Tipp auf einen Satz blendet `de` ein. Der Dialog zählt als richtig, wenn alle Lücken stimmen.
+
+```json
+{
+  "id": "d1",
+  "type": "dialog",
+  "title": "Begrüßung",
+  "speakers": ["Ana", "Marko"],
+  "lines": [
+    { "speaker": "Ana", "sl": "Kako si?", "de": "Wie geht’s dir?" },
+    { "speaker": "Marko", "sl": "Dobro. Pa {{0}}?", "answer": "ti", "distractor": "si", "de": "Gut. Und dir?" }
+  ]
+}
+```
+
+- `title` und `de` sind optional.
+- Der erste Name in `speakers` steht links, der zweite rechts und spricht etwas höher.
+- Pro Satz höchstens eine Lücke. `answer` und `distractor` nur bei Sätzen mit Lücke.
+
 Die Übungen laufen in der Reihenfolge von `exercises`. Jede `id` muss innerhalb der Lektion eindeutig sein.
 
 ### Regeln für die Antwortprüfung
@@ -92,6 +111,6 @@ public/lessons/      Lerninhalte (JSON)
 schema/              JSON-Schema für den Editor
 src/app/answer.ts    exakte Antwortprüfung
 src/app/lesson-*.ts  Laden und Validieren der Lektionen
-src/app/exercises/   Flashcard, Cloze, Translate, Choice
+src/app/exercises/   Flashcard, Cloze, Translate, Choice, Dialog
 src/app/pages/       Übersicht und Lektionsablauf
 ```

@@ -43,7 +43,29 @@ export interface ChoiceExercise {
   translation: string;
 }
 
-export type Exercise = FlashcardExercise | ClozeExercise | TranslateExercise | ChoiceExercise;
+export interface DialogLine {
+  /** One of the dialog's two speakers. */
+  speaker: string;
+  /** Slovenian sentence, optionally with one blank {{0}}. */
+  sl: string;
+  /** German translation, shown on tap. */
+  de?: string;
+  /** Only for sentences with a blank: the correct word … */
+  answer?: string;
+  /** … and the wrong word offered next to it. */
+  distractor?: string;
+}
+
+export interface DialogExercise {
+  id: string;
+  type: 'dialog';
+  title?: string;
+  /** Exactly two names; the first is shown on the left, the second on the right. */
+  speakers: [string, string];
+  lines: DialogLine[];
+}
+
+export type Exercise = FlashcardExercise | ClozeExercise | TranslateExercise | ChoiceExercise | DialogExercise;
 
 export interface Lesson {
   id: string;

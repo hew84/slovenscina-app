@@ -9,6 +9,22 @@
     { "id": "v-hvala", "sl": "Hvala", "de": "Danke" }
   ],
   "exercises": [
+    {
+      "id": "d1",
+      "type": "dialog",
+      "title": "Begrüßung",
+      "speakers": ["Ana", "Marko"],
+      "lines": [
+        { "speaker": "Ana", "sl": "Dober dan.", "de": "Guten Tag." },
+        { "speaker": "Marko", "sl": "Dober {{0}}.", "answer": "dan", "distractor": "večer", "de": "Guten Tag." },
+        { "speaker": "Ana", "sl": "Kako si?", "de": "Wie geht’s dir?" },
+        { "speaker": "Marko", "sl": "Dobro. Pa {{0}}?", "answer": "ti", "distractor": "si", "de": "Gut. Und dir?" },
+        { "speaker": "Ana", "sl": "Tako tako.", "de": "So lala." },
+        { "speaker": "Marko", "sl": "Nasvidenje.", "de": "Auf Wiedersehen." },
+        { "speaker": "Ana", "sl": "Adijo.", "de": "Tschüss." }
+      ]
+    },
+
 	{ "id": "a1", "type": "choice", "text": "Kako {{0}}?", "answer": "si", "distractor": "sem", "translation": "Wie geht’s dir?" },
     { "id": "a2", "type": "choice", "text": "Dober {{0}}!", "answer": "večer", "distractor": "dan", "translation": "Guten Abend!" },
 	

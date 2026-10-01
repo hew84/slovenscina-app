@@ -6,6 +6,7 @@ import { RouterLink } from '@angular/router';
 import { fillBlanks } from '../cloze';
 import { Choice } from '../exercises/choice';
 import { Cloze } from '../exercises/cloze';
+import { Dialog } from '../exercises/dialog';
 import { Flashcard } from '../exercises/flashcard';
 import { Translate } from '../exercises/translate';
 import { LessonFormatError } from '../lesson-validation';
@@ -23,7 +24,7 @@ type Phase = 'loading' | 'error' | 'running' | 'done';
 
 @Component({
   selector: 'app-lesson-page',
-  imports: [MatButton, MatCard, MatCardContent, MatCardActions, MatProgressBar, RouterLink, Icon, Flashcard, Cloze, Translate, Choice],
+  imports: [MatButton, MatCard, MatCardContent, MatCardActions, MatProgressBar, RouterLink, Icon, Flashcard, Cloze, Translate, Choice, Dialog],
   template: `
     <a matButton routerLink="/" class="back"><app-icon name="back" /> Übersicht</a>
 
@@ -54,6 +55,9 @@ type Phase = 'loading' | 'error' | 'running' | 'done';
             }
             @case ('choice') {
               <app-choice [exercise]="exercise" (completed)="next(exercise, $event)" />
+            }
+            @case ('dialog') {
+              <app-dialog [exercise]="exercise" (completed)="next(exercise, $event)" />
             }
           }
         }
@@ -247,6 +251,8 @@ export class LessonPage {
         return exercise.translation ?? exercise.text.replace(/\{\{\d+\}\}/g, '…');
       case 'choice':
         return exercise.translation;
+      case 'dialog':
+        return exercise.title ? `Dialog: ${exercise.title}` : 'Dialog';
     }
   }
 
@@ -263,6 +269,12 @@ export class LessonPage {
         );
       case 'choice':
         return fillBlanks(exercise.text, [exercise.answer]);
+      case 'dialog':
+        // The sentences that had a blank, completed.
+        return exercise.lines
+          .filter((line) => line.answer)
+          .map((line) => fillBlanks(line.sl, [line.answer!]))
+          .join(' · ');
     }
   }
 }

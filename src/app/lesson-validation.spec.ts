@@ -95,6 +95,67 @@ describe('parseLesson', () => {
     });
   });
 
+  describe('dialog exercises', () => {
+    const dialog = (overrides: Record<string, unknown> = {}, lines?: unknown[]) => {
+      const lesson = valid();
+      lesson.exercises[2] = {
+        id: 'e3',
+        type: 'dialog',
+        speakers: ['Ana', 'Marko'],
+        lines: lines ?? [
+          { speaker: 'Ana', sl: 'Kako si?', de: 'Wie geht’s dir?' },
+          { speaker: 'Marko', sl: 'Dobro. Pa {{0}}?', answer: 'ti', distractor: 'si' },
+        ],
+        ...overrides,
+      } as never;
+      return lesson;
+    };
+    const problems = (overrides: Record<string, unknown> = {}, lines?: unknown[]) =>
+      problemsOf(dialog(overrides, lines)).join('\n');
+
+    it('accepts lines with and without a blank', () => {
+      const parsed = parseLesson(dialog()).exercises[2];
+      expect(parsed).toMatchObject({ type: 'dialog', speakers: ['Ana', 'Marko'] });
+      expect(parsed.type === 'dialog' && parsed.lines[1]).toMatchObject({ answer: 'ti', distractor: 'si' });
+    });
+
+    it('accepts a dialog without any blank', () => {
+      expect(problems({}, [{ speaker: 'Ana', sl: 'Živjo.' }])).toBe('');
+    });
+
+    it('requires exactly two different speakers', () => {
+      expect(problems({ speakers: ['Ana'] })).toContain('genau zwei');
+      expect(problems({ speakers: ['Ana', 'Ana'] })).toContain('genau zwei');
+    });
+
+    it('requires at least one line', () => {
+      expect(problems({}, [])).toContain('nicht-leere Liste');
+    });
+
+    it('reports an unknown speaker', () => {
+      expect(problems({}, [{ speaker: 'Eva', sl: 'Živjo.' }])).toContain('Sprecher "Eva"');
+    });
+
+    it('requires answer and distractor for a blank, and only for a blank', () => {
+      expect(problems({}, [{ speaker: 'Ana', sl: 'Pa {{0}}?', answer: 'ti' }])).toContain('braucht');
+      expect(problems({}, [{ speaker: 'Ana', sl: 'Živjo.', answer: 'ti', distractor: 'si' }])).toContain(
+        'nur bei einem Satz mit Lücke',
+      );
+    });
+
+    it('allows at most one blank per line', () => {
+      expect(problems({}, [{ speaker: 'Ana', sl: '{{0}} {{1}}', answer: 'a', distractor: 'b' }])).toContain(
+        'höchstens eine Lücke',
+      );
+    });
+
+    it('rejects a distractor equal to the answer', () => {
+      expect(problems({}, [{ speaker: 'Ana', sl: 'Pa {{0}}?', answer: 'ti', distractor: 'ti' }])).toContain(
+        'nicht gleich',
+      );
+    });
+  });
+
   it('collects several problems at once', () => {
     expect(problemsOf({ id: '', vocabulary: 'x', exercises: [] }).length).toBeGreaterThan(3);
   });
