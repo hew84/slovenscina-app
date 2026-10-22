@@ -25,3 +25,20 @@ describe('ProgressService', () => {
     expect(TestBed.inject(ProgressService).get('lesson-01')).toBeUndefined();
   });
 });
+
+describe('ProgressService.reset', () => {
+  beforeEach(() => localStorage.clear());
+
+  it('forgets one lesson and keeps the others, also in storage', () => {
+    const service = TestBed.inject(ProgressService);
+    service.record('lesson-01', 10, 20);
+    service.record('lesson-02', 20, 20);
+
+    service.reset('lesson-01');
+
+    expect(service.get('lesson-01')).toBeUndefined();
+    expect(service.get('lesson-02')?.bestPercent).toBe(100);
+    const stored = JSON.parse(localStorage.getItem(PROGRESS_STORAGE_KEY)!);
+    expect(Object.keys(stored)).toEqual(['lesson-02']);
+  });
+});

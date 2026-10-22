@@ -36,6 +36,13 @@ export class ProgressService {
     this.write(next);
   }
 
+  /** Forgets all results of one lesson. */
+  reset(lessonId: string): void {
+    const { [lessonId]: _removed, ...rest } = this.state();
+    this.state.set(rest);
+    this.write(rest);
+  }
+
   // Storage can be missing or throw (private mode, blocked site data): the app must work without it.
   private read(): ProgressMap {
     try {

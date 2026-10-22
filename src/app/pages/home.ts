@@ -29,9 +29,18 @@ import { ProgressService } from '../progress.service';
             }
           </mat-card-content>
           <mat-card-actions>
-            <a matButton="filled" [routerLink]="['/lesson', lesson.id]">
-              {{ progress.get(lesson.id) ? 'Nochmal üben' : 'Starten' }}
-            </a>
+            @if (confirmingReset() === lesson.id) {
+              <span class="confirm" role="alert">Wirklich zurücksetzen?</span>
+              <button matButton type="button" (click)="confirmingReset.set(null)">Abbrechen</button>
+              <button matButton="tonal" type="button" class="danger" (click)="reset(lesson.id)">Zurücksetzen</button>
+            } @else {
+              <a matButton="filled" [routerLink]="['/lesson', lesson.id]">
+                {{ progress.get(lesson.id) ? 'Nochmal üben' : 'Starten' }}
+              </a>
+              @if (progress.get(lesson.id)) {
+                <button matButton type="button" (click)="confirmingReset.set(lesson.id)">Fortschritt zurücksetzen</button>
+              }
+            }
           </mat-card-actions>
         </mat-card>
       } @empty {
@@ -57,8 +66,20 @@ import { ProgressService } from '../progress.service';
     .progress {
       color: var(--mat-sys-on-surface-variant);
     }
+    .confirm {
+      flex-basis: 100%;
+      font: var(--mat-sys-title-small);
+    }
+    .danger {
+      // Material's own button tokens; plain background/color would be overridden.
+      --mat-button-tonal-container-color: var(--mat-sys-error-container);
+      --mat-button-tonal-label-text-color: var(--mat-sys-on-error-container);
+      --mat-button-tonal-state-layer-color: var(--mat-sys-on-error-container);
+    }
     mat-card-actions {
       padding: 0 1rem 1rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
     }
     .error {
       color: var(--mat-sys-error);
@@ -70,11 +91,18 @@ export class Home {
   protected readonly progress = inject(ProgressService);
   protected readonly lessons = signal<LessonSummary[] | null>(null);
   protected readonly error = signal<string | null>(null);
+  /** Lesson whose reset is waiting for confirmation. */
+  protected readonly confirmingReset = signal<string | null>(null);
 
   constructor() {
     this.lessonService
       .list()
       .then((lessons) => this.lessons.set(lessons))
       .catch(() => this.error.set('Die Lektionen konnten nicht geladen werden. Bist du offline und hast die App noch nie online geöffnet?'));
+  }
+
+  protected reset(lessonId: string): void {
+    this.progress.reset(lessonId);
+    this.confirmingReset.set(null);
   }
 }
